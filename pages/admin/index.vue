@@ -2,5 +2,5 @@
 </script>
 
 <template>
-  
+  <NuxtLink to="/admin/question">Question</NuxtLink>
 </template>
