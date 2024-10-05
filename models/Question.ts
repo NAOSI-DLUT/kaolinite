@@ -9,6 +9,7 @@ export interface Question {
   tags: string[];
   desktopOnly: boolean;
   type: "choice" | "text" | "code";
+  // The `answer` field in data will be filtered out when sending to the client
   data: ChoiceData | TextData | CodeData;
 }
 
@@ -22,13 +23,13 @@ export interface TextData {
   answer: string;
 }
 
-export interface TestCase {
+interface TestCase {
   input: string;
   output: string;
 }
 
 export interface CodeData {
-  testCases: TestCase[];
+  answer: TestCase[];
 }
 
 const questionSchema = new Schema<Question>({
