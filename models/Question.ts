@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-export interface Question {
+export interface Question<T> {
   _id?: string;
   title: string;
   description?: string;
@@ -8,31 +8,46 @@ export interface Question {
   score: number;
   tags: string[];
   desktopOnly: boolean;
-  type: "choice" | "text" | "code";
+  type: string;
   // The `answer` field in data will be filtered out when sending to the client
-  data: ChoiceData | TextData | CodeData;
+  data: T;
 }
 
-export interface ChoiceData {
+export interface RadioData {
   options: string[];
-  answer: number | number[];
-  multiple: boolean;
+  answer: number;
+}
+
+export interface CheckboxData {
+  options: string[];
+  answer: number[];
 }
 
 export interface TextData {
   answer: string;
 }
 
-interface TestCase {
-  input: string;
-  output: string;
-}
-
 export interface CodeData {
-  answer: TestCase[];
+  answer: { input: string; output: string }[];
 }
 
-const questionSchema = new Schema<Question>({
+export const isRadioQuestion = (
+  question: Question<unknown>
+): question is Question<RadioData> => question.type === "radio";
+
+export const isCheckboxQuestion = (
+  question: Question<unknown>
+): question is Question<CheckboxData> => question.type === "checkbox";
+
+export const isTextQuestion = (
+  question: Question<unknown>
+): question is Question<TextData> => question.type === "text";
+
+export const isCodeQuestion = (
+  question: Question<unknown>
+): question is Question<CodeData> => question.type === "code";
+
+const questionSchema = new Schema<Question<unknown>>({
   title: { type: String, required: true },
   description: { type: String },
   timeLimit: { type: Number, required: true },
@@ -43,4 +58,7 @@ const questionSchema = new Schema<Question>({
   data: { type: Object, required: true },
 });
 
-export const QuestionModel = model<Question>("Question", questionSchema);
+export const QuestionModel = model<Question<unknown>>(
+  "Question",
+  questionSchema
+);
