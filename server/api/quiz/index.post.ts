@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   }
   // TODO: uid 为用户的学号，调用此 api 后会在 quiz 表中创建一条记录，记录用户的学号和抽取的题目
   // 另见：~/models/Quiz.ts、Mongoose 文档
-  // 如果数据库中有未结束的 quiz 记录，返回对应的 quiz 的 id
+  // 如果数据库中有未结束的 quiz 记录，返回 403 Forbidden
   const questions = await QuestionModel.find({}, { "data.answer": 0 });
   const selectedIndexes = new Set<number>();
   const maxSelections = 5;

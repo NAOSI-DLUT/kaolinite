@@ -1,5 +1,15 @@
 import { model, Schema } from "mongoose";
 
+/**
+ * 题目数据
+ * @field title 题目标题
+ * @field description 题目描述
+ * @field timeLimit 答题时间限制（秒）
+ * @field score 题目分数
+ * @field tags 题目标签
+ * @field type 题目类型
+ * @field data 题目数据，其中 `data.answer` 不会返回给用户
+ */
 export interface Question<T> {
   _id?: string;
   title: string;
@@ -7,9 +17,7 @@ export interface Question<T> {
   timeLimit: number;
   score: number;
   tags: string[];
-  desktopOnly: boolean;
   type: string;
-  // The `answer` field in data will be filtered out when sending to the client
   data: T;
 }
 
@@ -53,7 +61,6 @@ const questionSchema = new Schema<Question<unknown>>({
   timeLimit: { type: Number, required: true },
   score: { type: Number, required: true },
   tags: { type: [String], required: true },
-  desktopOnly: { type: Boolean, required: true },
   type: { type: String, required: true },
   data: { type: Object, required: true },
 });
