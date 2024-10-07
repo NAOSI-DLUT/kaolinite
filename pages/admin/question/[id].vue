@@ -2,7 +2,7 @@
 import type { Question } from '~/models/Question';
 
 const route = useRoute()
-const { data } = await useFetch<Question>(`/api/admin/question/${route.params.id}`)
+const { data } = await useFetch<Question<unknown>>(`/api/admin/question/${route.params.id}`)
 const text = ref(JSON.stringify(data.value, null, 2))
 
 

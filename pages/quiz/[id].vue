@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import QuestionCard from '~/components/QuestionCard.vue';
-import { type Question } from '~/models/Question';
+import type { Question } from '~/models/Question';
 
-const { data } = await useFetch<Question<unknown>[]>('/api/questions');
+const route = useRoute();
+const { data } = await useFetch<Question<unknown>[]>(`/api/quiz/${route.params.id}`)
 const userAnswer = ref<any[]>(Array(data.value?.length));
+
 </script>
 
 <template>
