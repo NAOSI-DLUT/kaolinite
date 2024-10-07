@@ -4,21 +4,21 @@ export interface Quiz {
   _id: string;
   uid: string;
   questions: string[];
-  answers: string[];
-  scores: number[];
+  answers: unknown[];
+  score: number;
+  totalScore: number;
   timeLimit: number;
   startTime: number;
-  endTime: number;
 }
 
-const QuizSchema = new Schema<Quiz>({
+const quizSchema = new Schema<Quiz>({
   uid: { type: String, required: true },
-  questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
-  answers: [{ type: String }],
-  scores: [{ type: Number }],
+  questions: { type: [String], required: true },
+  answers: { type: Object, required: true },
+  score: { type: Number, required: true },
+  totalScore: { type: Number, required: true },
   timeLimit: { type: Number, required: true },
-  startTime: { type: Number },
-  endTime: { type: Number },
+  startTime: { type: Number, required: true },
 });
 
-export const QuizModel = model<Quiz>("Quiz", QuizSchema);
+export const QuizModel = model<Quiz>("Quiz", quizSchema);
