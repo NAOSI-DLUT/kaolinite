@@ -7,8 +7,8 @@ export interface Quiz {
   answers: unknown[];
   score: number;
   totalScore: number;
-  timeLimit: number;
-  startTime: number;
+  totalTimeLimit: number;
+  startTime: Date;
 }
 
 const quizSchema = new Schema<Quiz>({
@@ -17,8 +17,8 @@ const quizSchema = new Schema<Quiz>({
   answers: { type: Object, required: true },
   score: { type: Number, required: true },
   totalScore: { type: Number, required: true },
-  timeLimit: { type: Number, required: true },
-  startTime: { type: Number, required: true },
+  totalTimeLimit: { type: Number, required: true },
+  startTime: { type: Date, required: true },
 });
 
 export const QuizModel = model<Quiz>("Quiz", quizSchema);
