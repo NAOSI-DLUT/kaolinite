@@ -1,12 +1,25 @@
-<script lang="tsx" setup>
+<script lang="ts" setup>
 import type { Question } from '~/models/Question';
 
-const { data } = await useFetch<Question[]>('/api/admin/question')
+const questions = ref<Question<unknown>[]>([]);
+
+onMounted(async () => {
+  try {
+    questions.value = await $fetch('/api/admin/question', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+  } catch {
+    localStorage.removeItem('token');
+    navigateTo('/login');
+  }
+})
 </script>
 
 <template>
   <NuxtLink to="/admin/question/new">New Question</NuxtLink>
-  <ElTable :data="data ?? []">
+  <ElTable :data="questions">
     <ElTableColumn prop="title" label="Title">
       <template #default="{ row }">
         <NuxtLink :to="`/admin/question/${row._id}`">{{ row.title }}</NuxtLink>

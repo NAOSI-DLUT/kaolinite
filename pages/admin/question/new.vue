@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-const route = useRoute()
 const text = ref('')
 
 
@@ -7,6 +6,9 @@ const updateQuestion = async () => {
   try {
     const updateResult = await $fetch(`/api/admin/question`, {
       method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
       body: JSON.parse(text.value),
     })
     alert(JSON.stringify(updateResult, null, 2))
