@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
   else if (quiz.answers.length > 0) {
     throw createError({ message: "quiz already answered", status: 403 });
   }
-  else if (Date.now() - quiz.startTime.getDate() < quiz.totalTimeLimit) {
+  else if (Date.now() - quiz.startTime.getDate() > quiz.totalTimeLimit) {
     throw createError({ message: "quiz time out", status: 403 });
   }
   return await QuizModel.findByIdAndUpdate(
