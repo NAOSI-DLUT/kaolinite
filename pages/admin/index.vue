@@ -3,5 +3,5 @@
 
 <template>
   <NuxtLink to="/admin/question">Question</NuxtLink>
-  <!-- TODO: Statistics Display -->
+  <NuxtLink to="/admin/quiz">Quiz</NuxtLink>
 </template>

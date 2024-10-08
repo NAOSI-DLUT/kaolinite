@@ -1,19 +1,38 @@
 <script lang="ts" setup>
-import QuestionCard from '~/components/QuestionCard.vue';
-import { type Question } from '~/models/Question';
+import type { Quiz } from '~/models/Quiz';
 
-const { data } = await useFetch<Question<unknown>[]>('/api/quiz', {
-  method: 'POST',
-  body: { uid: 0 }
-  // TODO: body 中要包含表示学号的 uid
-});
-const userAnswer = ref<any[]>(Array(data.value?.length));
+const quizzes = ref<Quiz[]>([]);
+const uid = ref('');
+const tag = ref('');
+
+const requestQuiz = async () => {
+  const quiz = await $fetch(`/api/quiz`, {
+    method: 'POST',
+    body: { uid: uid.value }
+  })
+}
 </script>
 
 <template>
-  <!-- TODO: 改成一个输入框输入学号，请求后获得对应的 quiz id 再跳转到对应的 /quiz/:id -->
-  {{ userAnswer }}
-  <template v-for="(question, index) in data">
-    <QuestionCard :question="question" v-model="userAnswer[index]" />
-  </template>
+  <ElInput v-model="uid" placeholder="学号" />
+  <ElRadioGroup v-model="tag">
+    <ElRadio value="tag1" border>Tag1</ElRadio>
+    <ElRadio value="tag2" border>Tag2</ElRadio>
+  </ElRadioGroup>
+  <ElButton type="primary" @click="requestQuiz">Request Quiz</ElButton>
+  <div>历史答题记录</div>
+  <ElTable :data="quizzes">
+    <ElTableColumn prop="score" label="score">
+      <template #default="{ row }">
+        {{ row.score }}/{{ row.totalScore }}
+      </template>
+    </ElTableColumn>
+    <ElTableColumn prop="totalTimeLimit" label="Total Time Limit" />
+    <ElTableColumn prop="startTime" label="Start Time" />
+    <ElTableColumn>
+      <template #default="{ row }">
+        <ElButton type="primary" @click="() => navigateTo(`/quiz/${row._id}`)">继续答题</ElButton>
+      </template>
+    </ElTableColumn>
+  </ElTable>
 </template>
