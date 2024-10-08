@@ -12,10 +12,11 @@ const lang = ref<string>('cpp');
 
 <template>
   <div>
-    <p class="question-title">
-      <span>{{ question.title }}</span>
+    <ElSpace>
+      <b>{{ question.title }}</b>
       <ElTag>{{ question.score }}分</ElTag>
-    </p>
+    </ElSpace>
+    <p>{{ question.description }}</p>
     <div>
       <ElRadioGroup v-if="isRadioQuestion(question)" class="radio-group" v-model="model">
         <ElRadio v-for="(option, index) in question.data.options" :value="index" :key="option" :label="option">{{ option
@@ -43,12 +44,6 @@ const lang = ref<string>('cpp');
 </template>
 
 <style scoped>
-.question-title {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
 /* radio question */
 .radio-group {
   display: flex;

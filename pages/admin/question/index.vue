@@ -28,6 +28,5 @@ onMounted(async () => {
     <ElTableColumn prop="type" label="Type" />
     <ElTableColumn prop="tags" label="Tags" />
     <ElTableColumn prop="score" label="score" />
-    <ElTableColumn prop="desktopOnly" label="Desktop Only" />
   </ElTable>
 </template>

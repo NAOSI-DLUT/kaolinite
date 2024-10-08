@@ -17,7 +17,15 @@ const login = async () => {
 </script>
 
 <template>
-  <ElInput v-model="username" placeholder="用户名" />
-  <ElInput v-model="password" placeholder="密码" type="password" />
-  <ElButton type="primary" @click="login">登录</ElButton>
+  <ElForm>
+    <ElFormItem>
+      <ElInput v-model="username" placeholder="用户名" />
+    </ElFormItem>
+    <ElFormItem>
+      <ElInput v-model="password" placeholder="密码" type="password" />
+    </ElFormItem>
+    <ElFormItem>
+      <ElButton type="primary" @click="login">登录</ElButton>
+    </ElFormItem>
+  </ElForm>
 </template>

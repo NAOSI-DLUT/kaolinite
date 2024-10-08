@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import type { Question } from '~/models/Question';
-
 const route = useRoute()
 const questionJsonText = ref('')
 
@@ -22,6 +20,9 @@ const updateQuestion = async () => {
   const updateResult = await $fetch(`/api/admin/question/${route.params.id}`, {
     method: 'PUT',
     body: JSON.parse(questionJsonText.value),
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
   })
   alert(JSON.stringify(updateResult, null, 2))
 }
@@ -29,6 +30,9 @@ const updateQuestion = async () => {
 const deleteQuestion = async () => {
   const deleteResult = await $fetch(`/api/admin/question/${route.params.id}`, {
     method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
   })
   alert(JSON.stringify(deleteResult, null, 2))
 }

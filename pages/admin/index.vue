@@ -2,6 +2,10 @@
 </script>
 
 <template>
-  <NuxtLink to="/admin/question">Question</NuxtLink>
-  <NuxtLink to="/admin/quiz">Quiz</NuxtLink>
+  <div>
+    <NuxtLink to="/admin/question">Question</NuxtLink>
+  </div>
+  <div>
+    <NuxtLink to="/admin/quiz">Quiz</NuxtLink>
+  </div>
 </template>
