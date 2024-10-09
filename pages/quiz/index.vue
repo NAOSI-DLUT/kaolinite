@@ -10,11 +10,16 @@ const form = reactive({
   tag: '网络与开源'
 })
 
+onMounted(() => {
+  form.uid = localStorage.getItem('uid') ?? '';
+})
+
 const validateUid = (rule: any, value: string, callback: any) => {
   const uidPattern = /^\d{11}$/;
   if (!uidPattern.test(value)) {
     callback(new Error('学号必须为11位纯数字'));
   } else {
+    localStorage.setItem('uid', value);
     callback();
   }
 }
