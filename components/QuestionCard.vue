@@ -30,7 +30,9 @@ const lang = ref<string>('cpp');
           option }}
         </ElCheckbox>
       </ElCheckboxGroup>
-      <ElInput v-else-if="isTextQuestion(question)" v-model="model" :disabled="disabled" />
+      <ElSpace v-else-if="isTextQuestion(question)">
+        <ElInput v-for="index in question.data.blankCount" v-model="model[index - 1]" :disabled="disabled" />
+      </ElSpace>
       <template v-else-if="isCodeQuestion(question)">
         <div class="editor-head">
           <div>代码编辑器</div>

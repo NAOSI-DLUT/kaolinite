@@ -1,4 +1,4 @@
-import { QuestionModel } from "~/models/Question";
+import { Question, QuestionModel } from "~/models/Question";
 import { QuizModel } from "~/models/Quiz";
 
 export default defineEventHandler(async (event) => {
@@ -16,5 +16,13 @@ export default defineEventHandler(async (event) => {
       message: "Quiz not found",
     });
   }
-  return await QuestionModel.find({ _id: { $in: quiz.questions } });
+  const questions = await QuestionModel.find({ _id: { $in: quiz.questions } });
+  const questtionMap = questions.reduce((acc, question) => {
+    acc[question._id] = question;
+    return acc;
+  }, {} as Record<string, Question<unknown>>);
+
+  return quiz.questions.map((questionId) => {
+    return questtionMap[questionId];
+  });
 });

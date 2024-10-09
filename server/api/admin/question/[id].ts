@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     return await QuestionModel.findById(id);
   } else if (event.method === "PUT") {
     const body = await readBody(event);
-    return await QuestionModel.findByIdAndUpdate(id, body);
+    return await QuestionModel.findByIdAndUpdate(id, body, { new: true });
   } else if (event.method === "DELETE") {
     return await QuestionModel.findByIdAndDelete(id);
   } else {

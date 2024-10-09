@@ -18,16 +18,18 @@ async function scoring(quiz: Quiz, userAnswers: any[]) {
 
   for (let index = 0; index < quiz.questions.length; index++) {
     const question = questionsMap[quiz.questions[index]];
-    if (userAnswers[index] == null) {
+    const userAnswer = userAnswers[index];
+
+    if (userAnswer == null) {
       continue;
     }
     if (isRadioQuestion(question)) {
-      if (question.data.answer === userAnswers[index]) {
+      if (question.data.answer === userAnswer) {
         questionScores[index] = question.score;
       }
     } else if (isCheckboxQuestion(question)) {
       let correctCount = 0;
-      for (const answer of userAnswers[index]) {
+      for (const answer of userAnswer) {
         if (question.data.answer.includes(answer)) {
           correctCount++;
         } else {
@@ -40,11 +42,8 @@ async function scoring(quiz: Quiz, userAnswers: any[]) {
     } else if (isTextQuestion(question)) {
       let correctCount = 0;
       for (let i = 0; i < question.data.answer.length; i++) {
-        console.log(question.data.answer[i], userAnswers[index]);
-
         if (
-          question.data.answer[i].toLowerCase() ===
-          userAnswers[index].toLowerCase()
+          question.data.answer[i].toLowerCase() === userAnswer[i].toLowerCase()
         ) {
           correctCount++;
         }
@@ -72,7 +71,10 @@ export default defineEventHandler(async (event) => {
   if (quiz.answers) {
     throw createError({ message: "Quiz already answered", status: 403 });
   }
-  if (Date.now() > quiz.startTime.getTime() + quiz.totalTimeLimit * 1000) {
+  if (
+    Date.now() >
+    quiz.startTime.getTime() + quiz.totalTimeLimit * 1000 + 2000
+  ) {
     throw createError({ message: "Quiz time limit exceeded", status: 403 });
   }
 
