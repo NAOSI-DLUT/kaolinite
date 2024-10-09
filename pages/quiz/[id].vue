@@ -20,9 +20,7 @@ onMounted(async () => {
   quiz.value = await $fetch<Quiz>(`/api/quiz/${route.params.id}`);
   if (quiz.value) {
     userAnswer.value = quiz.value.answers ?? Array(quiz.value.questions.length);
-    for (const id of quiz.value.questions) {
-      questions.value.push(await $fetch<Question<unknown>>(`/api/question/${id}`));
-    }
+    questions.value = await $fetch<Question<unknown>[]>(`/api/question?quiz=${quiz.value._id}`);
     if (ongoing.value) {
       timer = setInterval(() => {
         if (quiz.value) {
