@@ -27,10 +27,14 @@ onMounted(async () => {
         {{ row.score ?? 'NaN' }}/{{ row.totalScore }}
       </template>
     </ElTableColumn>
-    <ElTableColumn prop="totalTimeLimit" label="限时" />
     <ElTableColumn prop="startTime" label="开始时间">
       <template #default="{ row }">
         {{ dayjs(row.startTime).format('MM-DD HH:mm:ss') }}
+      </template>
+    </ElTableColumn>
+    <ElTableColumn>
+      <template #default="{ row }">
+        <NuxtLink :to="`/quiz/${row._id}`">查看详情</NuxtLink>
       </template>
     </ElTableColumn>
   </ElTable>
