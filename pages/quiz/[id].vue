@@ -10,6 +10,7 @@ const userAnswer = ref<any[]>([]);
 const currentQuestionIndex = ref('0');
 const questions = ref<Question<unknown>[]>([]);
 const remainingTime = ref(0);
+let timer: NodeJS.Timeout;
 
 const ongoing = computed(() => {
   return quiz.value && quiz.value.answers == null && Date.now() < new Date(quiz.value.startTime).getTime() + quiz.value.totalTimeLimit * 1000;
@@ -23,7 +24,7 @@ onMounted(async () => {
       questions.value.push(await $fetch<Question<unknown>>(`/api/question/${id}`));
     }
     if (ongoing.value) {
-      const timer = setInterval(() => {
+      timer = setInterval(() => {
         if (quiz.value) {
           remainingTime.value = Math.floor(quiz.value.totalTimeLimit - (Date.now() - new Date(quiz.value.startTime).getTime()) / 1000) + 1
           if (remainingTime.value <= 0) {
@@ -39,11 +40,21 @@ onMounted(async () => {
 })
 
 const submit = async () => {
-  const result = await $fetch(`/api/quiz/${route.params.id}`, {
-    method: 'PUT',
-    body: { answers: userAnswer.value }
-  });
-  navigateTo('/quiz');
+  try {
+    await $fetch(`/api/quiz/${route.params.id}`, {
+      method: 'PUT',
+      body: { answers: userAnswer.value }
+    });
+    clearInterval(timer);
+    navigateTo('/quiz');
+  } catch (e: any) {
+    ElNotification({
+      title: '提交失败',
+      message: e.data?.message ?? e.message ?? e,
+      type: 'error',
+      duration: 0
+    })
+  }
 }
 
 </script>

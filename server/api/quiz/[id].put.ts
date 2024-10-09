@@ -18,6 +18,9 @@ async function scoring(quiz: Quiz, userAnswers: any[]) {
 
   for (let index = 0; index < quiz.questions.length; index++) {
     const question = questionsMap[quiz.questions[index]];
+    if (userAnswers[index] == null) {
+      continue;
+    }
     if (isRadioQuestion(question)) {
       if (question.data.answer === userAnswers[index]) {
         questionScores[index] = question.score;

@@ -25,18 +25,27 @@ const validateUid = (rule: any, value: string, callback: any) => {
 }
 
 const rules = {
-  uid: [{ validator: validateUid, trigger: 'blur' }],
+  uid: [{ required: true, validator: validateUid, trigger: 'blur' }],
   tag: [{ required: true, message: '请选择赛道', trigger: 'blur' }]
 }
 
 const sumbit = async (formRef: FormInstance | null) => {
   await formRef?.validate(async (valid) => {
     if (valid) {
-      const quiz = await $fetch<Quiz>(`/api/quiz`, {
-        method: 'POST',
-        body: { uid: form.uid, tags: [form.tag] }
-      });
-      navigateTo(`/quiz/${quiz._id}`);
+      try {
+        const quiz = await $fetch<Quiz>(`/api/quiz`, {
+          method: 'POST',
+          body: { uid: form.uid, tags: [form.tag] }
+        });
+        navigateTo(`/quiz/${quiz._id}`);
+      } catch (e: any) {
+        ElNotification({
+          title: '创建测试失败',
+          message: e.data?.message ?? e.message ?? e,
+          type: 'error',
+          duration: 0
+        })
+      }
     }
   });
 }
