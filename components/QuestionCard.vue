@@ -4,6 +4,7 @@ import { type Question, isRadioQuestion, isCheckboxQuestion, isTextQuestion, isC
 const model = defineModel<any>();
 const { question } = defineProps<{
   question: Question<any>;
+  disabled?: boolean;
 }>();
 
 // code question
@@ -18,25 +19,26 @@ const lang = ref<string>('cpp');
     </ElSpace>
     <p>{{ question.description }}</p>
     <div>
-      <ElRadioGroup v-if="isRadioQuestion(question)" class="radio-group" v-model="model">
+      <ElRadioGroup v-if="isRadioQuestion(question)" class="radio-group" v-model="model" :disabled="disabled">
         <ElRadio v-for="(option, index) in question.data.options" :value="index" :key="option" :label="option">{{ option
           }}
         </ElRadio>
       </ElRadioGroup>
-      <ElCheckboxGroup v-else-if="isCheckboxQuestion(question)" class="checkbox-group" v-model="model">
+      <ElCheckboxGroup v-else-if="isCheckboxQuestion(question)" class="checkbox-group" v-model="model"
+        :disabled="disabled">
         <ElCheckbox v-for="(option, index) in question.data.options" :value="index" :key="option" :label="option">{{
           option }}
         </ElCheckbox>
       </ElCheckboxGroup>
-      <ElInput v-else-if="isTextQuestion(question)" v-model="model" />
+      <ElInput v-else-if="isTextQuestion(question)" v-model="model" :disabled="disabled" />
       <template v-else-if="isCodeQuestion(question)">
         <div class="editor-head">
           <div>代码编辑器</div>
-          <ElSelect v-model="lang" placeholder="Select a language" style="width: 200px;">
+          <ElSelect v-model="lang" placeholder="Select a language" style="width: 200px;" :disabled="disabled">
             <ElOption label="C++" value="cpp" />
           </ElSelect>
         </div>
-        <MonacoEditor class="editor" v-model="model" :lang />
+        <MonacoEditor class="editor" v-model="model" :lang :options="{ readOnly: disabled }" />
       </template>
       <div v-else>Unsupported Question Type</div>
     </div>

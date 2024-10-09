@@ -11,7 +11,7 @@ import { model, Schema } from "mongoose";
  * @field data 题目数据，其中 `data.answer` 不会返回给用户
  */
 export interface Question<T> {
-  _id?: string;
+  _id: string;
   title: string;
   description?: string;
   timeLimit: number;
@@ -32,10 +32,12 @@ export interface CheckboxData {
 }
 
 export interface TextData {
-  answer: string;
+  blankCount: number;
+  answer: string[];
 }
 
 export interface CodeData {
+  testCaseCount: number;
   answer: { input: string; output: string }[];
 }
 

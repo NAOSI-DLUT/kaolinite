@@ -14,8 +14,9 @@ export interface Quiz {
   _id: string;
   uid: string;
   questions: string[];
-  answers: unknown[];
-  score: number;
+  answers?: unknown[];
+  score?: number;
+  questionScores?: number[];
   totalScore: number;
   totalTimeLimit: number;
   startTime: Date;
@@ -24,8 +25,9 @@ export interface Quiz {
 const quizSchema = new Schema<Quiz>({
   uid: { type: String, required: true },
   questions: { type: [String], required: true },
-  answers: { type: Object, required: true },
-  score: { type: Number, required: true },
+  answers: { type: Object },
+  score: { type: Number },
+  questionScores: { type: [Number] },
   totalScore: { type: Number, required: true },
   totalTimeLimit: { type: Number, required: true },
   startTime: { type: Date, required: true },

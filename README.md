@@ -31,7 +31,7 @@ pnpm run dev
 | 路径                      | 方法     | 参数                                   | 返回值       | 说明                     |
 | ------------------------- | -------- | -------------------------------------- | ------------ | ------------------------ |
 | `/api/quiz`               | `GET`    | `?uid=`                                | `Quiz[]`     | 获取用户的全部测试       |
-| `/api/quiz`               | `POST`   | `{uid: string, tag: string}`           | `Quiz`       | 请求新的测试，tag 为方向 |
+| `/api/quiz`               | `POST`   | `{uid: string, tags: string[]}`        | `Quiz`       | 请求新的测试，tag 为方向 |
 | `/api/quiz/:id`           | `GET`    |                                        | `Quiz`       | 获取指定测试             |
 | `/api/quiz/:id`           | `PUT`    | `{answers: any}`                       | `Quiz`       | 回答测试                 |
 | `/api/question/:id`       | `POST`   |                                        | `Question`   | 获取不含答案的题目信息   |
