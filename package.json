@@ -19,7 +19,6 @@
     "mongoose": "^8.7.0",
     "nuxt": "^3.13.0",
     "nuxt-monaco-editor": "^1.2.9",
-    "nuxt-mongoose": "^1.0.6",
     "vue": "latest",
     "vue-router": "latest"
   },
