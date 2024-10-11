@@ -52,24 +52,7 @@ async function scoring(quiz: Quiz, userAnswers: any[]) {
       questionScores[index] =
         (correctCount / question.data.answer.length) * question.score;
     } else if (isCodeQuestion(question)) {
-      let correctCount = 0;
-      for (let i = 0; i < question.data.answer.length; i++) {
-        try {
-          const output = (await evalCpp(userAnswer, {
-            stdin: question.data.answer[i].input,
-            timeout: 1000,
-            memory: 512,
-          })) as string;
-
-          if (output.trim() == question.data.answer[i].output.trim()) {
-            correctCount++;
-          }
-        } catch (e) {
-          console.error(e);
-        }
-      }
-      questionScores[index] =
-        (correctCount / question.data.answer.length) * question.score;
+      questionScores[index] = 0;
     }
   }
   return questionScores;
