@@ -43,6 +43,7 @@ async function scoring(quiz: Quiz, userAnswers: any[]) {
       let correctCount = 0;
       for (let i = 0; i < question.data.answer.length; i++) {
         if (
+          userAnswer[i] &&
           question.data.answer[i].toLowerCase() === userAnswer[i].toLowerCase()
         ) {
           correctCount++;
@@ -59,21 +60,13 @@ async function scoring(quiz: Quiz, userAnswers: any[]) {
             timeout: 1000,
             memory: 512,
           })) as string;
-          console.log(
-            "code",
-            userAnswer,
-            "input",
-            question.data.answer[i].input,
-            "output",
-            output,
-            "expected",
-            question.data.answer[i].output
-          );
 
           if (output.trim() == question.data.answer[i].output.trim()) {
             correctCount++;
           }
-        } catch {}
+        } catch (e) {
+          console.error(e);
+        }
       }
       questionScores[index] =
         (correctCount / question.data.answer.length) * question.score;
