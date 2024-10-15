@@ -16,7 +16,8 @@ export default defineEventHandler(async (event) => {
   // 检查是否存在正在进行的测试
   if (
     latestQuiz &&
-    Date.now() < latestQuiz.startTime.getTime() + latestQuiz.totalTimeLimit
+    Date.now() <
+      latestQuiz.startTime.getTime() + latestQuiz.totalTimeLimit * 1000
   ) {
     throw createError({
       statusCode: 403,
