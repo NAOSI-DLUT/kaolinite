@@ -74,7 +74,6 @@ watch(form, async (value) => {
           </ElSpace>
         </ElRadio>
         <ElRadio value="硬件" border>硬件</ElRadio>
-        <ElRadio value="算法" border>算法</ElRadio>
       </ElRadioGroup>
     </ElFormItem>
     <ElFormItem>
