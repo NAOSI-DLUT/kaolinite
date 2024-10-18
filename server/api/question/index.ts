@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
       message: "Quiz not found",
     });
   }
-  const questions = await QuestionModel.find({ _id: { $in: quiz.questions } });
+  const questions = await QuestionModel.find({ _id: { $in: quiz.questions } }, { "data.answer": 0 });
   const questtionMap = questions.reduce((acc, question) => {
     acc[question._id] = question;
     return acc;
