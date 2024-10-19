@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
   const ongoingQuizzies = await QuizModel.find({
     uid: body.uid,
     // 未作答的测试记录
-    answers: null,
+    answers: { $type: 10 },
   }).sort({ startTime: -1 });
   const latestQuiz = ongoingQuizzies[0];
   // 检查是否存在正在进行的测试
