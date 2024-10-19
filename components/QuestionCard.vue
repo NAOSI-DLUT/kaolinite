@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { marked } from 'marked';
+import markedKatex from "marked-katex-extension";
 import { type Question, isRadioQuestion, isCheckboxQuestion, isTextQuestion, isCodeQuestion } from '~/models/Question';
 
 const model = defineModel<any>();
@@ -10,7 +11,13 @@ const { question, index, quiz } = defineProps<{
   quiz: string;
 }>();
 
-const descriptionHtml = computed(() => marked(question.description ?? ''));
+marked.use(markedKatex({
+  throwOnError: false,
+}))
+
+const descriptionHtml = computed(() => {
+  return marked.parse(question.description!)
+});
 
 // code question
 const lang = ref<string>('cpp');
@@ -19,7 +26,7 @@ const testcases = ref<string[]>([]);
 
 const judge = async () => {
   if (token.value) {
-    const data = await $fetch<{ testcases: { status: number }[] }>('/api/judge', {
+    const data = await $fetch<{ status: number }[]>('/api/judge', {
       method: 'POST',
       body: {
         token: token.value,
@@ -54,7 +61,7 @@ const judge = async () => {
     console.log(testcases.value);
 
     if (data.every(testcase => testcase.status != 0)) {
-      token.value = null;
+      token.value = undefined;
     }
   } else {
     const data = await $fetch<{ token: string }>('/api/judge', {

@@ -1,3 +1,5 @@
+@import url('https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css');
+
 html {
   background-color: #f3f3f3;
 }
