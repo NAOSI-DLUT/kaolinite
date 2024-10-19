@@ -16,7 +16,7 @@ marked.use(markedKatex({
 }))
 
 const descriptionHtml = computed(() => {
-  return marked.parse(question.description!)
+  return marked.parse(question.description ?? '')
 });
 
 // code question
