@@ -10,6 +10,8 @@ const { question, index, quiz } = defineProps<{
   quiz: string;
 }>();
 
+const descriptionHtml = computed(() => marked(question.description ?? ''));
+
 // code question
 const lang = ref<string>('cpp');
 const token = ref<string>();
@@ -74,7 +76,7 @@ const judge = async () => {
       <b>{{ question.title }}</b>
       <ElTag>{{ question.score }}分</ElTag>
     </ElSpace>
-    <p :v-html="marked(question.description ?? '')"></p>
+    <p v-html="descriptionHtml"></p>
     <div>
       <ElRadioGroup v-if="isRadioQuestion(question)" class="radio-group" v-model="model" :disabled="disabled">
         <ElRadio v-for="(option, index) in question.data.options" :value="index" :key="option" :label="option">{{ option
