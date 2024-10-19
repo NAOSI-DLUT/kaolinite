@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import dayjs from 'dayjs';
-import { set } from 'mongoose';
 import type { Question } from '~/models/Question';
 import type { Quiz } from '~/models/Quiz';
 
@@ -74,7 +73,8 @@ const submit = async () => {
       <ElAlert class="alert" v-if="!ongoing && quiz?.questionScores"
         :title="`本题得分：${quiz.questionScores[index] ?? '未提交'}`"
         :type="quiz.questionScores[index] === question.score ? 'success' : 'error'" :closable="false" />
-      <QuestionCard :question="question" v-model="userAnswers[index]" :disabled="!ongoing" />
+      <QuestionCard :question="question" v-model="userAnswers[index]" :disabled="!ongoing" :index="index"
+        :quiz="Array.isArray(route.params.id) ? route.params.id[0] : route.params.id" />
     </ElTabPane>
     <ElTabPane label="完成">
       <ElButton type="primary" @click="submit" :disabled="!ongoing">提交答案</ElButton>

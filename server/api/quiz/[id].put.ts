@@ -52,7 +52,8 @@ async function scoring(quiz: Quiz, userAnswers: any[]) {
       questionScores[index] =
         (correctCount / question.data.answer.length) * question.score;
     } else if (isCodeQuestion(question)) {
-      questionScores[index] = 0;
+      // 已在临时 judge 接口中处理
+      // questionScores[index] = 0;
     }
   }
   return questionScores;
