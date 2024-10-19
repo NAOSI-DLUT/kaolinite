@@ -14,7 +14,11 @@ async function scoring(quiz: Quiz, userAnswers: any[]) {
     acc[question._id] = question;
     return acc;
   }, {} as Record<string, Question<unknown>>);
-  const questionScores = Array<number>(quiz.questions.length).fill(0);
+
+  console.log(quiz.questionScores);
+
+  const questionScores =
+    quiz.questionScores ?? Array<number>(quiz.questions.length).fill(0);
 
   for (let index = 0; index < quiz.questions.length; index++) {
     const question = questionsMap[quiz.questions[index]];

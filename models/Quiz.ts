@@ -33,4 +33,6 @@ const quizSchema = new Schema<Quiz>({
   startTime: { type: Date, required: true },
 });
 
-export const QuizModel = model<Quiz>("Quiz", quizSchema);
+const QuizModel = model<Quiz>("Quiz", quizSchema);
+
+export { QuizModel };

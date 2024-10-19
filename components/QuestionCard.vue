@@ -12,7 +12,7 @@ const { question, index, quiz } = defineProps<{
 
 // code question
 const lang = ref<string>('cpp');
-const token = ref<string>('');
+const token = ref<string>();
 const testcases = ref<string[]>([]);
 
 const judge = async () => {
@@ -21,9 +21,11 @@ const judge = async () => {
       method: 'POST',
       body: {
         token: token.value,
+        id: quiz,
+        index: index
       }
     });
-    testcases.value = data.testcases.map(testcase => {
+    testcases.value = data.map(testcase => {
       switch (testcase.status) {
         case 0:
           return 'Pending';
@@ -47,14 +49,16 @@ const judge = async () => {
           return 'Unknown';
       }
     });
-    if (testcases.value.every(testcase => testcase !== 'Pending')) {
-      token.value = '';
+    console.log(testcases.value);
+
+    if (data.every(testcase => testcase.status != 0)) {
+      token.value = null;
     }
   } else {
     const data = await $fetch<{ token: string }>('/api/judge', {
       method: 'POST',
       body: {
-        code: model.value,
+        code: Buffer.from(model.value).toString('base64'),
         id: quiz,
         index: index
       }
@@ -87,9 +91,9 @@ const judge = async () => {
         <ElInput v-for="index in question.data.blankCount" v-model="model[index - 1]" :disabled="disabled" />
       </ElSpace>
       <template v-else-if="isCodeQuestion(question)">
-        <div>测试点数据：</div>
+        <div>测试点数据：{{ testcases }}</div>
         <div>
-          <ElButton @click="judge">提交评测</ElButton>
+          <ElButton @click="judge">{{ token ? "刷新结果" : "提交评测" }}</ElButton>
         </div>
         <div class="editor-head">
           <div>代码编辑器</div>

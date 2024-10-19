@@ -12,4 +12,6 @@ const userSchema = new Schema<User>({
   admin: { type: Boolean, required: true },
 });
 
-export const UserModel = model<User>("User", userSchema);
+const UserModel = model<User>("User", userSchema);
+
+export { UserModel };

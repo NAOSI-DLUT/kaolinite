@@ -67,7 +67,6 @@ const questionSchema = new Schema<Question<unknown>>({
   data: { type: Object, required: true },
 });
 
-export const QuestionModel = model<Question<unknown>>(
-  "Question",
-  questionSchema
-);
+const QuestionModel = model<Question<unknown>>("Question", questionSchema);
+
+export { QuestionModel };
