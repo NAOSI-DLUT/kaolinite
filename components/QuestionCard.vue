@@ -89,7 +89,7 @@ const judge = async () => {
       <template v-else-if="isCodeQuestion(question)">
         <div>测试点数据：</div>
         <div>
-          <ElButton>提交评测</ElButton>
+          <ElButton @click="judge">提交评测</ElButton>
         </div>
         <div class="editor-head">
           <div>代码编辑器</div>

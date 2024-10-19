@@ -11,13 +11,13 @@ export default defineEventHandler(async (event) => {
     return createError({ status: 404, message: "Quiz not found" });
   }
   if (body.code) {
-    return await $fetch(path.join(baseUrl, "/api/submit"), {
+    return await $fetch(path.join(baseUrl, "/api/v1/submit"), {
       method: "POST",
       body: { code: body.code, _id: quiz.questions[body.index] },
     });
   } else {
     const data = await $fetch<{ testcases: { status: number }[] }>(
-      path.join(baseUrl, `/api/query?token=${body.token}`)
+      path.join(baseUrl, `/api/v1/query?token=${body.token}`)
     );
     if (data.testcases.every((t) => t.status !== 0)) {
       if (!quiz.questionScores) {
