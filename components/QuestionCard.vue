@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { marked } from 'marked';
 import { type Question, isRadioQuestion, isCheckboxQuestion, isTextQuestion, isCodeQuestion } from '~/models/Question';
 
 const model = defineModel<any>();
@@ -69,7 +70,7 @@ const judge = async () => {
       <b>{{ question.title }}</b>
       <ElTag>{{ question.score }}分</ElTag>
     </ElSpace>
-    <p>{{ question.description }}</p>
+    <p :v-html="marked(question.description ?? '')"></p>
     <div>
       <ElRadioGroup v-if="isRadioQuestion(question)" class="radio-group" v-model="model" :disabled="disabled">
         <ElRadio v-for="(option, index) in question.data.options" :value="index" :key="option" :label="option">{{ option
